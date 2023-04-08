@@ -1,0 +1,33 @@
+{
+  "name": "relaycentral-api",
+  "version": "1.0.0",
+  "description": "An API in TypeScript for controlling relay devices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knaiskes/RelayCentral-api.git"
+  },
+  "keywords": [
+    "TypeScript"
+  ],
+  "author": "Kiriakos Naiskes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knaiskes/RelayCentral-api/issues"
+  },
+  "homepage": "https://github.com/knaiskes/RelayCentral-api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "@types/pg": "^8.6.6",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.0.4"
+  }
+}
