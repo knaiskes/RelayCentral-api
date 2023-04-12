@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    container_name: db
+    restart: always
+    image: postgres:15
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=central
+    ports:
+      - "5432:5432"
+  adminer:
+    image: adminer:4.8.1
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+
+volumes:
+  data:
+  postgres_data:
