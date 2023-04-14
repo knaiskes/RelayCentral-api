@@ -1,24 +1,13 @@
-import express, { Application, Request, Response } from 'express';
-import createPool from './config/db';
+import express, { Application } from 'express';
 
-const pool = createPool();
+import relayRoutes from './routes/relayRoutes';
 
 const app: Application = express();
 const port: number = 3000;
 
-app.get('/', (req: Request, res: Response ) => {
-    res.send('Hello World!');
-});
+const version: string = '/api/v1'
 
-app.get('/relays', async(req: Request, res: Response ) => {
-    try {
-	const result = await pool.query('SELECT * FROM relays');
-	const metadata = { count: result.rows.length };
-	res.status(200).json({ data: result.rows, metadata: metadata });
-    } catch (err: any) {
-	console.error('There has been an error: ', err.stack);
-    }
-});
+app.use(version, relayRoutes);
 
 app.listen(port, () => {
     console.log(`Connected successfully on port ${port}`);
