@@ -29,7 +29,26 @@ const getRelayById = async(req: Request, res: Response ) => {
     }
 };
 
+const postRelay = async(req: Request, res: Response ) => {
+    const { deviceTypeId, name } = req.body;
+
+    if(!deviceTypeId || !name) {
+	return res.status(400).json({ message: 'deviceTypeId and name are required'});
+    }
+
+    try {
+	const insertRelayQuery =
+	    `INSERT INTO relays (deviceTypeId, name) VALUES($1, $2) RETURNING id`;
+	const result = await pool.query(insertRelayQuery, [deviceTypeId, name]);
+	res.status(201).json({ id: result.rows[0].id, deviceTypeId, name});
+    } catch(error) {
+	console.log(error);
+	res.status(500).json({ message: 'Server error' });
+    }
+};
+
 export {
     getAllRelays,
     getRelayById,
+    postRelay,
 };
