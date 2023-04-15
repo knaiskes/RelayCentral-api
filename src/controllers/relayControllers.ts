@@ -77,11 +77,28 @@ RETURNING *
 	const result = await pool.query(updateRelayQuery, [...setValues, id]);
 
 	if(result.rowCount === 0) {
-	    return res.status(404).json({message: 'Relay with id: ${id} does not exist'});
+	    return res.status(404).json({message: `Relay with id: ${id} does not exist`});
 	}
 
 	res.json(result.rows[0]);
 
+    } catch(error) {
+	console.error(error);
+	res.status(500).json({message: 'Server error'});
+    }
+};
+
+const deleteRelay = async(req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+
+    try {
+	const result = await pool.query(`DELETE FROM relays WHERE id=$1`, [id]);
+
+	if(result.rowCount === 0) {
+	    return res.status(404).json({message: `Relay with id ${id} does not exist`});
+	}
+
+	res.json({message: `Relay with id: ${id} was deleted`});
     } catch(error) {
 	console.error(error);
 	res.status(500).json({message: 'Server error'});
@@ -93,4 +110,5 @@ export {
     getRelayById,
     postRelay,
     updateRelay,
+    deleteRelay,
 };
