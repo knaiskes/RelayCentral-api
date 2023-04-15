@@ -24,8 +24,9 @@ const getRelayById = async(req: Request, res: Response ) => {
 	} else {
 	    res.status(404).json({ message: 'Data not found' });
 	}
-    } catch (err: any) {
-	console.error('There has been an error: ', err.stack);
+    } catch (error) {
+	console.log(error);
+	res.status(500).json({ message: 'Server error' });
     }
 };
 
