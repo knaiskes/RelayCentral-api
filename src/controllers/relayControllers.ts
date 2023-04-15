@@ -48,8 +48,49 @@ const postRelay = async(req: Request, res: Response ) => {
     }
 };
 
+const updateRelay = async(req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+    const {deviceTypeId, name} = req.body;
+
+    try {
+	const setParams = [];
+	const setValues = [];
+
+	if(deviceTypeId) {
+	    setParams.push(`deviceTypeId = $${setValues.length + 1}`);
+	    setValues.push(deviceTypeId);
+	}
+	if(name) {
+	    setParams.push(`name = $${setValues.length + 1}`);
+	    setValues.push(name);
+	}
+
+	const setClause = setParams.join(', ');
+
+	const updateRelayQuery = `
+UPDATE relays
+SET ${setClause}
+WHERE id = $${setValues.length + 1}
+RETURNING *
+
+`;
+	const result = await pool.query(updateRelayQuery, [...setValues, id]);
+
+	if(result.rowCount === 0) {
+	    return res.status(404).json({message: 'Relay with id: ${id} does not exist'});
+	}
+
+	res.json(result.rows[0]);
+
+    } catch(error) {
+	console.error(error);
+	res.status(500).json({message: 'Server error'});
+    }
+};
+
 export {
     getAllRelays,
     getRelayById,
     postRelay,
+    updateRelay,
 };
