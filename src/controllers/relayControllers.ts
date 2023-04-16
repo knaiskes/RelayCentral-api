@@ -26,7 +26,7 @@ const getRelayById = async(req: Request, res: Response ) => {
 	    res.status(404).json({ message: `Relay with id: ${id} does not exist`});
 	}
     } catch (error) {
-	console.log(error);
+	console.error(error);
 	res.status(500).json({ message: 'Server error' });
     }
 };
@@ -44,7 +44,7 @@ const postRelay = async(req: Request, res: Response ) => {
 	const result = await pool.query(insertRelayQuery, [deviceTypeId, name]);
 	res.status(201).json({ id: result.rows[0].id, deviceTypeId, name});
     } catch(error) {
-	console.log(error);
+	console.error(error);
 	res.status(500).json({ message: 'Server error' });
     }
 };
