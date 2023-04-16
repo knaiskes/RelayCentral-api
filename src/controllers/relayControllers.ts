@@ -8,8 +8,9 @@ const getAllRelays = async(req: Request, res: Response ) => {
 	const result = await pool.query('SELECT * FROM relays');
 	const metadata = { count: result.rows.length };
 	res.status(200).json({ data: result.rows, metadata: metadata });
-    } catch (err: any) {
-	console.error('There has been an error: ', err.stack);
+    } catch (error) {
+	console.error(error);
+	res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -22,7 +23,7 @@ const getRelayById = async(req: Request, res: Response ) => {
 	    const metadata = { count: result.rows.length };
 	    res.status(200).json({ data: result.rows[0], metadata: metadata });
 	} else {
-	    res.status(404).json({ message: 'Data not found' });
+	    res.status(404).json({ message: `Relay with id: ${id} does not exist`});
 	}
     } catch (error) {
 	console.log(error);
