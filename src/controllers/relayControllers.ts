@@ -14,7 +14,7 @@ const getAllRelays = async(req: Request, res: Response ) => {
 };
 
 const getRelayById = async(req: Request, res: Response ) => {
-    const { id } = req.params;
+    const id = parseInt(req.params.id);
 
     try {
 	const result = await pool.query(`SELECT * FROM relays WHERE id=${id}`);
