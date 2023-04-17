@@ -32,16 +32,16 @@ const getRelayById = async(req: Request, res: Response ) => {
 };
 
 const postRelay = async(req: Request, res: Response ) => {
-    const { deviceTypeId, name } = req.body;
+    const { deviceTypeId, name, topic } = req.body;
 
-    if(!deviceTypeId || !name) {
-	return res.status(400).json({ message: 'deviceTypeId and name are required'});
+    if(!deviceTypeId || !name || !topic) {
+	return res.status(400).json({ message: 'deviceTypeId, name and topic are required'});
     }
 
     try {
 	const insertRelayQuery =
-	    `INSERT INTO relays (deviceTypeId, name) VALUES($1, $2) RETURNING id`;
-	const result = await pool.query(insertRelayQuery, [deviceTypeId, name]);
+	    `INSERT INTO relays (deviceTypeId, name, topic) VALUES($1, $2, $3) RETURNING id`;
+	const result = await pool.query(insertRelayQuery, [deviceTypeId, name, topic]);
 	res.status(201).json({ id: result.rows[0].id, deviceTypeId, name});
     } catch(error) {
 	console.error(error);
@@ -51,7 +51,7 @@ const postRelay = async(req: Request, res: Response ) => {
 
 const updateRelay = async(req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    const {deviceTypeId, name} = req.body;
+    const {deviceTypeId, name, topic} = req.body;
 
     try {
 	const setParams = [];
@@ -64,6 +64,10 @@ const updateRelay = async(req: Request, res: Response) => {
 	if(name) {
 	    setParams.push(`name = $${setValues.length + 1}`);
 	    setValues.push(name);
+	}
+	if(topic) {
+	    setParams.push(`topic = $${setValues.length + 1}`);
+	    setValues.push(topic);
 	}
 
 	const setClause = setParams.join(', ');
