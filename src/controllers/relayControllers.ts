@@ -51,7 +51,7 @@ const postRelay = async(req: Request, res: Response ) => {
 
 const updateRelay = async(req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    const {deviceTypeId, name, topic} = req.body;
+    const {deviceTypeId, name, topic, state} = req.body;
 
     try {
 	const setParams = [];
@@ -68,6 +68,10 @@ const updateRelay = async(req: Request, res: Response) => {
 	if(topic) {
 	    setParams.push(`topic = $${setValues.length + 1}`);
 	    setValues.push(topic);
+	}
+	if(state) {
+	    setParams.push(`state = $${setValues.length + 1}`);
+	    setValues.push(state);
 	}
 
 	const setClause = setParams.join(', ');
