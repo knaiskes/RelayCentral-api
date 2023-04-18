@@ -11,9 +11,9 @@ const postUser = async(req: Request, res: Response ) => {
     }
 
     try {
-	const insertRelayQuery =
+	const insertUserQuery =
 	    `INSERT INTO users (username, password) VALUES($1, crypt($2, gen_salt('bf'))) RETURNING id`;
-	const result = await pool.query(insertRelayQuery, [username, password]);
+	const result = await pool.query(insertUserQuery, [username, password]);
 	res.status(201).json({ id: result.rows[0].id, username, password});
     } catch(error) {
 	console.error(error);
