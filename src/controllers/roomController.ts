@@ -89,9 +89,27 @@ RETURNING *
     }
 };
 
+const deleteRoom = async(req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+
+    try {
+	const result = await pool.query(`DELETE FROM rooms WHERE id=$1`, [id]);
+
+	if(result.rowCount === 0) {
+	    return res.status(404).json({message: `Room with id ${id} does not exist`});
+	}
+
+	res.json({message: `Room with id: ${id} was deleted`});
+    } catch(error) {
+	console.error(error);
+	res.status(500).json({message: 'Server error'});
+    }
+};
+
 export {
     getAllRooms,
     getRoomById,
     postRoom,
     updateRoom,
+    deleteRoom,
 };
