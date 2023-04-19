@@ -14,6 +14,23 @@ const getAllRooms = async(req: Request, res: Response ) => {
     }
 };
 
+const getRoomById = async(req: Request, res: Response ) => {
+    const id = parseInt(req.params.id);
+
+    try {
+	const result = await pool.query(`SELECT * FROM rooms WHERE id=${id}`);
+	if(result.rowCount) {
+	    const metadata = { count: result.rows.length };
+	    res.status(200).json({ data: result.rows[0], metadata: metadata });
+	} else {
+	    res.status(404).json({ message: `Room with id: ${id} does not exist`});
+	}
+    } catch (error) {
+	console.error(error);
+	res.status(500).json({ message: 'Server error' });
+    }
+};
+
 const postRoom = async(req: Request, res: Response ) => {
     const { name, userId } = req.body;
 
@@ -34,5 +51,6 @@ const postRoom = async(req: Request, res: Response ) => {
 
 export {
     getAllRooms,
+    getRoomById,
     postRoom,
 };
