@@ -19,3 +19,5 @@ app.use(version, deviceTypes);
 app.listen(port, () => {
     console.log(`Connected successfully on port ${port}`);
 });
+
+export default app;
