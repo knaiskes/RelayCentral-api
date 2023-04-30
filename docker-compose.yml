@@ -25,6 +25,19 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+  mqtt:
+    container_name: mqtt
+    image: eclipse-mosquitto:2.0.15
+    ports:
+      - 1883:1883
+      - 9001:9001
+    restart: always
+    volumes:
+      - ./mosquitto/config/:/mosquitto/config/:rw
+      - ./mosquitto/log/:/mosquitto/log/
+      - data:/mosquitto/data/
+    depends_on:
+      - db
 
   adminer:
     image: adminer:4.8.1
