@@ -1,11 +1,12 @@
 import mqtt, { MqttClient } from 'mqtt';
 
 const mqttBrokerAddress = 'mqtt://localhost'; // TODO: Use environment variable
+const mqttUserName = 'test'; // TODO: Use environment variable
+const mqttPassword = 'test'; // TODO: Use environment variable
 
-function sendMqttMessage(mqttTopic: string, mqttMessage: string,
-			 mqttUsername: string, mqttPassword: string): void {
+function sendMqttMessage(mqttTopic: string, mqttMessage: string): void {
     const client: MqttClient = mqtt.connect(mqttBrokerAddress, {
-	username: mqttUsername,
+	username: mqttUserName,
 	password: mqttPassword
     });
 
