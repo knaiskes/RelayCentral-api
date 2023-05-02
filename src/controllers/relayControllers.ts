@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { sendMqttMessage } from '../mqtt/mqtt';
 import createPool from '../config/db'
 
 const pool = createPool();
@@ -88,9 +89,16 @@ RETURNING *
 	if(result.rowCount === 0) {
 	    return res.status(404).json({message: `Relay with id: ${id} does not exist`});
 	}
-
+	if(state) {
+	    try {
+		const getRelayMqttTopic = `SELECT topic FROM relays WHERE id=${id}`;
+		const result = await pool.query(getRelayMqttTopic, []);
+		sendMqttMessage(result.rows[0].topic, state);
+	    } catch(error) {
+		console.error(error);
+	    }
+	}
 	res.json(result.rows[0]);
-
     } catch(error) {
 	console.error(error);
 	res.status(500).json({message: 'Server error'});
