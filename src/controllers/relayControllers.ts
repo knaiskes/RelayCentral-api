@@ -2,6 +2,10 @@ import { Request, Response } from 'express';
 import { sendMqttMessage } from '../mqtt/mqtt';
 import createPool from '../config/db'
 
+interface RoutineError {
+    routine: string;
+}
+
 const pool = createPool();
 
 const getAllRelays = async(req: Request, res: Response ) => {
@@ -45,8 +49,13 @@ const postRelay = async(req: Request, res: Response ) => {
 	const result = await pool.query(insertRelayQuery, [deviceTypeId, name, topic]);
 	res.status(201).json({ id: result.rows[0].id, deviceTypeId, name});
     } catch(error) {
-	console.error(error);
-	res.status(500).json({ message: 'Server error' });
+	if ((error as RoutineError).routine === '_bt_check_unique') {
+	    console.log('Duplicate relay error');
+	    res.status(500).json({ message: 'A relay with this info already exists' });
+	} else {
+	    console.error(error);
+	    res.status(500).json({ message: 'Server error' });
+	}
     }
 };
 
@@ -100,8 +109,13 @@ RETURNING *
 	}
 	res.json(result.rows[0]);
     } catch(error) {
-	console.error(error);
-	res.status(500).json({message: 'Server error'});
+	if ((error as RoutineError).routine === '_bt_check_unique') {
+	    console.log('Duplicate relay error');
+	    res.status(500).json({ message: 'A relay with this info already exists' });
+	} else {
+	    console.error(error);
+	    res.status(500).json({message: 'Server error'});
+	}
     }
 };
 
