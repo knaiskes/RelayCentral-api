@@ -1,12 +1,12 @@
 import express from 'express';
 
 import {
-    getAllDeviceTypes,
-    getDeviceTypeById,
-    postDeviceType,
-    updateDeviceType,
-    deleteDeviceType,
-} from '../controllers/deviceTypesController'
+  getAllDeviceTypes,
+  getDeviceTypeById,
+  postDeviceType,
+  updateDeviceType,
+  deleteDeviceType,
+} from '../controllers/deviceTypesController';
 
 const router = express.Router();
 

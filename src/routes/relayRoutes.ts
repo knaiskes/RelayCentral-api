@@ -1,12 +1,12 @@
 import express from 'express';
 
 import {
-    getAllRelays,
-    getRelayById,
-    postRelay,
-    updateRelay,
-    deleteRelay,
-} from '../controllers/relayControllers'
+  getAllRelays,
+  getRelayById,
+  postRelay,
+  updateRelay,
+  deleteRelay,
+} from '../controllers/relayControllers';
 
 const router = express.Router();
 

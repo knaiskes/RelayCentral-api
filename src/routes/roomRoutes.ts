@@ -1,12 +1,12 @@
 import express from 'express';
 
 import {
-    getAllRooms,
-    getRoomById,
-    postRoom,
-    updateRoom,
-    deleteRoom,
-} from '../controllers/roomController'
+  getAllRooms,
+  getRoomById,
+  postRoom,
+  updateRoom,
+  deleteRoom,
+} from '../controllers/roomController';
 
 const router = express.Router();
 
