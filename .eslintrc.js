@@ -16,10 +16,11 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
-    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
+      semi: ['error', 'always'], // require semicolons at the end of statements
   },
-}
+  ignorePatterns: ['node_modules'],
+};
