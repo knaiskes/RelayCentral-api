@@ -1,14 +1,14 @@
 import amqp, { Connection, Channel } from 'amqplib';
 
 async function connect(): Promise<Channel> {
-  const connection: Connection = await amqp.connect('amqp://localhost');
+  const connection: Connection = await amqp.connect(process.env.AMQP_HOST!);
   const channel: Channel = await connection.createChannel();
-  await channel.assertQueue('test');
+  await channel.assertQueue(process.env.AMQP_CHANNEL!);
   return channel;
 }
 
 async function sendToQueue(channel: Channel, message: string): Promise<void> {
-  channel.sendToQueue('test', Buffer.from(message));
+  channel.sendToQueue(process.env.AMQP_QUEUE!, Buffer.from(message));
 }
 
 async function close(channel: Channel, connection: Connection): Promise<void> {
