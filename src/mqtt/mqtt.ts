@@ -1,11 +1,14 @@
 import mqtt, { MqttClient } from 'mqtt';
+import dotenv from 'dotenv';
 
-const mqttBrokerAddress = 'mqtt://localhost'; // TODO: Use environment variable
-const mqttUserName = 'test'; // TODO: Use environment variable
-const mqttPassword = 'test'; // TODO: Use environment variable
+dotenv.config();
+
+const mqttBrokerAddress = process.env.MQTT_BROKER_ADDRESS;
+const mqttUserName = process.env.MQTT_USERNAME;
+const mqttPassword = process.env.MQTT_PASSWORD;
 
 function sendMqttMessage(mqttTopic: string, mqttMessage: string): void {
-  const client: MqttClient = mqtt.connect(mqttBrokerAddress, {
+  const client: MqttClient = mqtt.connect(mqttBrokerAddress!, {
     username: mqttUserName,
     password: mqttPassword,
   });
