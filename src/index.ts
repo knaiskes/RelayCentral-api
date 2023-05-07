@@ -19,5 +19,5 @@ app.use(version, roomRoutes);
 app.use(version, deviceTypes);
 
 app.listen(port, hostname, () => {
-  console.log(`Connected successfully on port ${port}`);
+    console.log(`Connected successfully on port ${hostname} : ${port}`);
 });
