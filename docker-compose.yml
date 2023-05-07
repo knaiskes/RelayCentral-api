@@ -37,6 +37,16 @@ services:
     ports:
       - 8080:8080
 
+  app:
+    build: .
+    container_name: relay_central_api
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - mqtt
+
 volumes:
   data:
   postgres_data:
