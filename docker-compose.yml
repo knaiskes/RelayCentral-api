@@ -46,6 +46,8 @@ services:
     depends_on:
       - db
       - mqtt
+    volumes:
+      - ./src:/app/src
 
 volumes:
   data:
