@@ -42,7 +42,7 @@ services:
     container_name: relay_central_api
     restart: always
     ports:
-      - "3000:3000"
+      - "3001:3001"
     depends_on:
       - db
       - mqtt
