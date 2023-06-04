@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 
 import relayRoutes from './routes/relayRoutes';
 import userRoutes from './routes/userRoutes';
@@ -23,5 +23,5 @@ app.use(version, deviceTypes);
 app.use(version, loginRoutes);
 
 app.listen(port, hostname, () => {
-    console.log(`Connected successfully on port ${hostname} : ${port}`);
+  console.log(`Connected successfully on port ${hostname} : ${port}`);
 });
