@@ -4,7 +4,7 @@ import relayRoutes from './routes/relayRoutes';
 import userRoutes from './routes/userRoutes';
 import roomRoutes from './routes/roomRoutes';
 import deviceTypes from './routes/deviceTypesRoutes';
-import loginRoutes from './routes/loginRoutes';
+import tokensRoutes from './routes/tokensRoutes';
 
 import { verifyToken } from './middleware/authMiddleware';
 
@@ -20,7 +20,7 @@ app.use(version, verifyToken, relayRoutes);
 app.use(version, userRoutes);
 app.use(version, roomRoutes);
 app.use(version, deviceTypes);
-app.use(version, loginRoutes);
+app.use(version, tokensRoutes);
 
 app.listen(port, hostname, () => {
   console.log(`Connected successfully on port ${hostname} : ${port}`);
