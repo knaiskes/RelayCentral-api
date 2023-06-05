@@ -5,11 +5,7 @@ import { User } from '../interfaces/interfaces'
 
 const secretKey = process.env.TOKEN_SECRET as string;
 
-interface CustomRequest extends Request {
-  user: User;
-}
-
-export const verifyToken = (req: CustomRequest, res: Response, next: NextFunction) => {
+export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const { path } = req;
   const token = req.headers['authorization'];
 
@@ -24,9 +20,8 @@ export const verifyToken = (req: CustomRequest, res: Response, next: NextFunctio
   }
 
   try {
-      const decoded = jwt.verify(token as string, secretKey);
-      const { user } = req;
-    //req.user = decoded as User;
+    const decoded = jwt.verify(token as string, secretKey);
+    req.user = decoded as User;
     next();
   } catch (error) {
     return res.status(403).json({ message: 'Failed to authenticate token' });
