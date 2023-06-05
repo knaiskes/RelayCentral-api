@@ -1,11 +1,17 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import createPool from '../config/db';
+import { User } from '../interfaces/interfaces';
 
 const pool = createPool();
 
+const accessTokenExpiration = '15m';
+const refreshTokenExpiration = '7d';
+
+const secretKeyToken = process.env.TOKEN_SECRET as string;
+const secretKeyRefreshToken = process.env.TOKEN_SECRET_REFRESH as string;
+
 const loginController = async (req: Request, res: Response) => {
-  const secretKey = process.env.TOKEN_SECRET as string;
   const { username, password } = req.body;
 
   pool.query(
@@ -24,10 +30,24 @@ const loginController = async (req: Request, res: Response) => {
       }
 
       const user = result.rows[0];
-      const token = jwt.sign(user, secretKey);
-      res.json({ token });
+	const accessToken = jwt.sign(user, secretKeyToken, { expiresIn: accessTokenExpiration});
+	const refreshToken = jwt.sign(user, secretKeyRefreshToken, { expiresIn: refreshTokenExpiration})
+	res.json({ accessToken, refreshToken });
     }
   );
 };
 
-export { loginController };
+const refreshTokenController = async(req: Request, res: Response) => {
+    const refreshToken = req.body.refreshToken;
+
+    try {
+	const decoded = jwt.verify(refreshToken, secretKeyRefreshToken) as User ;
+	const accessToken = jwt.sign({ id: decoded.id, username: decoded.username}, secretKeyToken, { expiresIn: accessTokenExpiration });
+
+	res.json({ accessToken });
+    } catch (err) {
+	res.status(401).json({ message: 'Invalid or expired refresh token' });
+    }
+};
+
+export { loginController, refreshTokenController };
