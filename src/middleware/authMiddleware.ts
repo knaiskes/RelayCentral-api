@@ -9,8 +9,8 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
   const { path } = req;
   const token = req.headers['authorization'];
 
-  // Skip token verification for the login and refresh-token routes
-  if (path === '/login' || path === '/refresh-token') {
+  // Skip token verification for the get-token and refresh-token routes
+  if (path === '/get-token' || path === '/refresh-token') {
     next();
     return;
   }

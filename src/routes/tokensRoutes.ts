@@ -1,10 +1,10 @@
 import express from 'express';
 
-import { loginController, refreshTokenController } from '../controllers/loginController';
+import { getTokenController, refreshTokenController } from '../controllers/tokensController';
 
 const router = express.Router();
 
-router.post('/login', loginController);
+router.post('/get-token', getTokenController);
 router.post('/refresh-token', refreshTokenController);
 
 export default router;

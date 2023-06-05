@@ -11,7 +11,7 @@ const refreshTokenExpiration = '7d';
 const secretKeyToken = process.env.TOKEN_SECRET as string;
 const secretKeyRefreshToken = process.env.TOKEN_SECRET_REFRESH as string;
 
-const loginController = async (req: Request, res: Response) => {
+const getTokenController = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   pool.query(
@@ -50,4 +50,4 @@ const refreshTokenController = async(req: Request, res: Response) => {
     }
 };
 
-export { loginController, refreshTokenController };
+export { getTokenController, refreshTokenController };
