@@ -33,3 +33,17 @@ result for your tokens variables
 $ cd RelayCentral-api/
 $ docker-compose up --build
 ```
+
+# API calls
+
+The base URL is: [localhost:3001/api/v1](localhost:3001/api/v1)
+
+## Relays endpoint
+
+| Endpoint     | Description              | HTTP Method |
+|--------------|--------------------------|-------------|
+| /relays      | Get all the relays       | GET         |
+| /relays/{id} | Get a single relay by id | GET         |
+| /relays      | Post a new relay         | POST        |
+| /relays/{id} | Patch a specific relay   | PATCH       |
+| /relays/{id} | Delete a relay           | DELETE      |
