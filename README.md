@@ -1,3 +1,5 @@
+[![Node.js CI](https://github.com/knaiskes/RelayCentral-api/actions/workflows/test.yml/badge.svg)](https://github.com/knaiskes/RelayCentral-api/actions/workflows/test.yml)
+
 # RelayCentral-api
 
 ## Quick Start
