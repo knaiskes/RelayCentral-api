@@ -47,3 +47,24 @@ The base URL is: [localhost:3001/api/v1](localhost:3001/api/v1)
 | /relays      | Post a new relay         | POST        |
 | /relays/{id} | Patch a specific relay   | PATCH       |
 | /relays/{id} | Delete a relay           | DELETE      |
+
+# Request example
+This example assumes that you already created a user.
+
+## Generate  a token
+
+```
+$ curl -X POST -H 'Content-Type: application/json' -d '{"username": "user", "password": "password"}' localhost:3001/api/v1/get-token
+```
+
+## Make a request using the token
+
+```
+$ curl -H "Authorization:token" http://localhost:3001/api/v1/relays
+```
+
+## Refresh token
+
+```
+$ curl -X POST -H 'Content-Type: application/json' -d '{"refreshToken": "refresh-token"}' localhost:3001/api/v1/refresh-token
+```
