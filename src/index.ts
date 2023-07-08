@@ -9,7 +9,15 @@ import tokensRoutes from './routes/tokensRoutes';
 import { verifyToken } from './middleware/authMiddleware';
 
 const app: Application = express();
+import cors from 'cors';
+
 app.use(express.json());
+
+const corsOptions = {
+    origin: '*', // TODO: Limit it to the frontend address
+};
+
+app.use(cors(corsOptions));
 
 const hostname = process.env.API_HOSTNAME as string;
 const port = Number(process.env.API_PORT);
