@@ -1,6 +1,8 @@
 -- Docker will create the database central
 \c central;
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 CREATE TABLE IF NOT EXISTS users (
 id SERIAL PRIMARY KEY,
 username VARCHAR(20) NOT NULL UNIQUE,
