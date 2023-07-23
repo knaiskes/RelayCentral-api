@@ -14,7 +14,8 @@ import cors from 'cors';
 app.use(express.json());
 
 const corsOptions = {
-    origin: '*', // TODO: Limit it to the frontend address
+    origin: process.env.ORIGIN_URL,
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
