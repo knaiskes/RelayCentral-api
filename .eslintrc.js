@@ -8,7 +8,6 @@ module.exports = {
     },
   },
   env: {
-    browser: true,
     es2021: true,
     node: true,
   },
@@ -20,7 +19,7 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
-      semi: ['error', 'always'], // require semicolons at the end of statements
+      semi: ['error', 'always'],
   },
   ignorePatterns: ['node_modules'],
 };

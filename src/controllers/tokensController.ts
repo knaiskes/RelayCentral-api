@@ -30,24 +30,28 @@ const getTokenController = async (req: Request, res: Response) => {
       }
 
       const user = result.rows[0];
-	const accessToken = jwt.sign(user, secretKeyToken, { expiresIn: accessTokenExpiration});
-	const refreshToken = jwt.sign(user, secretKeyRefreshToken, { expiresIn: refreshTokenExpiration})
-	res.json({ accessToken, refreshToken });
+      const accessToken = jwt.sign(user, secretKeyToken, { expiresIn: accessTokenExpiration });
+      const refreshToken = jwt.sign(user, secretKeyRefreshToken, {
+        expiresIn: refreshTokenExpiration,
+      });
+      res.json({ accessToken, refreshToken });
     }
   );
 };
 
-const refreshTokenController = async(req: Request, res: Response) => {
-    const refreshToken = req.body.refreshToken;
+const refreshTokenController = async (req: Request, res: Response) => {
+  const refreshToken = req.body.refreshToken;
 
-    try {
-	const decoded = jwt.verify(refreshToken, secretKeyRefreshToken) as User ;
-	const accessToken = jwt.sign({ id: decoded.id, username: decoded.username}, secretKeyToken, { expiresIn: accessTokenExpiration });
+  try {
+    const decoded = jwt.verify(refreshToken, secretKeyRefreshToken) as User;
+    const accessToken = jwt.sign({ id: decoded.id, username: decoded.username }, secretKeyToken, {
+      expiresIn: accessTokenExpiration,
+    });
 
-	res.json({ accessToken });
-    } catch (err) {
-	res.status(401).json({ message: 'Invalid or expired refresh token' });
-    }
+    res.json({ accessToken });
+  } catch (err) {
+    res.status(401).json({ message: 'Invalid or expired refresh token' });
+  }
 };
 
 export { getTokenController, refreshTokenController };
