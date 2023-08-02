@@ -5,8 +5,8 @@ import { User } from '../interfaces/interfaces';
 
 const pool = createPool();
 
-const accessTokenExpiration = '15m';
-const refreshTokenExpiration = '7d';
+const accessTokenExpiration = '2d';
+const refreshTokenExpiration = '3d';
 
 const secretKeyToken = process.env.TOKEN_SECRET as string;
 const secretKeyRefreshToken = process.env.TOKEN_SECRET_REFRESH as string;
