@@ -9,8 +9,15 @@ interface RoutineError {
 const pool = createPool();
 
 const getAllRelays = async (req: Request, res: Response) => {
+    const getAllRelaysQuery = `
+SELECT relays.id, relays.deviceTypeId, relays.name, relays.topic,
+relays.state, device_status.status, device_status.status_changed_at
+FROM relays
+LEFT JOIN device_status ON relays.id = device_status.relayId
+;
+`
   try {
-    const result = await pool.query('SELECT * FROM relays');
+    const result = await pool.query(getAllRelaysQuery);
     const metadata = { count: result.rows.length };
     res.status(200).json({ data: result.rows, metadata: metadata });
   } catch (error) {
@@ -19,10 +26,16 @@ const getAllRelays = async (req: Request, res: Response) => {
 };
 
 const getRelayById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-
+    const id = parseInt(req.params.id);
+    const getRelayByIdQuery = `
+SELECT relays.id, relays.deviceTypeId, relays.name, relays.topic,
+relays.state, device_status.status, device_status.status_changed_at
+FROM relays
+LEFT JOIN device_status ON relays.id = device_status.relayId
+WHERE relays.id = ${id}
+`;
   try {
-    const result = await pool.query(`SELECT * FROM relays WHERE id=${id}`);
+    const result = await pool.query(getRelayByIdQuery);
     if (result.rowCount) {
       const metadata = { count: result.rows.length };
       res.status(200).json({ data: result.rows[0], metadata: metadata });
