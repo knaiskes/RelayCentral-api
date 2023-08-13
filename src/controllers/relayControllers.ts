@@ -43,9 +43,12 @@ const postRelay = async (req: Request, res: Response) => {
   }
 
   try {
-    const insertRelayQuery = `INSERT INTO relays (deviceTypeId, name, topic) VALUES($1, $2, $3) RETURNING id`;
-    const result = await pool.query(insertRelayQuery, [deviceTypeId, name, topic]);
-    res.status(201).json({ id: result.rows[0].id, deviceTypeId, name });
+      const insertRelayQuery = `INSERT INTO relays (deviceTypeId, name, topic) VALUES($1, $2, $3) RETURNING id`;
+      const insertDeviceStatus = `INSERT INTO device_status (relayId, status, status_changed_at) VALUES($1, $2, $3)`;
+      const relay = await pool.query(insertRelayQuery, [deviceTypeId, name, topic]);
+      let timeStampNow = new Date().toISOString();
+      await pool.query(insertDeviceStatus, [relay.rows[0].id, false, timeStampNow])
+      res.status(201).json({ id: relay.rows[0].id, deviceTypeId, name });
   } catch (error) {
     if ((error as RoutineError).routine === '_bt_check_unique') {
       console.log('Duplicate relay error');
