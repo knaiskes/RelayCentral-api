@@ -35,4 +35,13 @@ state BOOLEAN DEFAULT false,
 FOREIGN KEY(deviceTypeId) REFERENCES device_types(id)
 );
 
+CREATE TABLE IF NOT EXISTS device_status(
+id SERIAL PRIMARY KEY,
+relayId INT NOT NULL,
+status BOOLEAN DEFAULT false,
+status_changed_at TIMESTAMP,
+
+FOREIGN KEY(relayId) REFERENCES relays(id)
+);
+
 GRANT SELECT ON relays TO postgres;
