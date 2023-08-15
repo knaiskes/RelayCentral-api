@@ -41,7 +41,13 @@ describe('Test relayControllers', () => {
 
     it('should retrieve all relays from the database and return them as JSON', async () => {
       await getAllRelays(req, res);
-      expect(createPool().query).toHaveBeenCalledWith('SELECT * FROM relays');
+      expect(createPool().query).toHaveBeenCalledWith(`
+SELECT relays.id, relays.deviceTypeId, relays.name, relays.topic,
+relays.state, device_status.status, device_status.status_changed_at
+FROM relays
+LEFT JOIN device_status ON relays.id = device_status.relayId
+;
+`);
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         data: mockResult.rows,
