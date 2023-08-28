@@ -48,6 +48,14 @@ services:
       - mqtt
     volumes:
       - ./src:/app/src
+  status_script:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.status_script.yml
+    container_name: status_script
+    depends_on:
+      - db
+      - mqtt
 
 volumes:
   data:
