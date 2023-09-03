@@ -22,7 +22,6 @@ const getAllRelayStatusTopicsQuery = `SELECT topic FROM relays LEFT JOIN device_
 try {
     const result = await pool.query(getAllRelayStatusTopicsQuery);
     const topics = result.rows.map(row => `${row.topic}/ping`);
-    console.log('topics: ', topics);
 
     const brokerUrl = process.env.MQTT_BROKER_ADDRESS;
     const options = {
@@ -57,10 +56,17 @@ try {
     });
 
     client.on('message', (receivedTopic, message) => {
-        console.log(`Received message on topic "${receivedTopic}": ${message}`);
-        lastMessageTimes[receivedTopic] = Date.now();
-        messageMissingFlags[receivedTopic] = false;
-    });
+	messageMissingFlags[receivedTopic] = false;
+	lastMessageTimes[receivedTopic] = Date.now();
+	console.log(`Received message on topic "${receivedTopic}": ${message}`);
+	try {
+	    const clearedTopic = receivedTopic.replace(/\/[^/]+$/, ''); // remove /ping
+	    const updateStatusTopicQuery = `UPDATE device_status SET status = 'true' FROM relays WHERE device_status.relayid = relays.id AND relays.topic = $1`;
+	    pool.query(updateStatusTopicQuery, [clearedTopic]);
+	} catch(error) {
+	    console.error(`Failed with error: ${error}`);
+	}
+	});
 
     setInterval(() => {
         topics.forEach(topic => {
@@ -70,6 +76,13 @@ try {
             if (elapsedTime >= expectedMessageInterval && !messageMissingFlags[topic]) {
                 console.log(`Expected message is missing on topic "${topic}".`);
                 messageMissingFlags[topic] = true;
+		try {
+		    const clearedTopic = topic.replace(/\/[^/]+$/, ''); // remove /ping
+		    const updateStatusTopicQuery = `UPDATE device_status SET status = 'false' FROM relays WHERE device_status.relayid = relays.id AND relays.topic = $1`;
+		    pool.query(updateStatusTopicQuery, [clearedTopic]);
+		} catch(error) {
+		    console.error(`Failed with error: ${error}`);
+		}
             }
         });
     }, 1000);
