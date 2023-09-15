@@ -7,9 +7,9 @@ Each IoT relay device connects to the MQTT broker and then becomes available for
 ## Project Overview
 The project starts the following containers:
 - Node.js: for the TypeScript API
-- Postgres: for the databae
+- Postgres: for the database
 - Adminer: for the graphical management of the database
-- MQTT: for the MQTT communication
+- MQTT: for MQTT communication
 
 ### Diagram
 
