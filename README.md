@@ -1,6 +1,19 @@
 [![Node.js CI](https://github.com/knaiskes/RelayCentral-api/actions/workflows/test.yml/badge.svg)](https://github.com/knaiskes/RelayCentral-api/actions/workflows/test.yml)
 
 # RelayCentral-api
+A TypeScript API for managing IoT relay devices.
+Each IoT relay device connects to the MQTT broker and then becomes available for receiving and sending commands to the broker
+
+## Project Overview
+The project starts the following containers:
+- Node.js: for the TypeScript API
+- Postgres: for the databae
+- Adminer: for the graphical management of the database
+- MQTT: for the MQTT communication
+
+### Diagram
+
+![diagram](https://github.com/knaiskes/RelayCentral-api/assets/6069054/62407af1-9b7e-46a9-b2de-b19675e0f895)
 
 ## Quick Start
 
