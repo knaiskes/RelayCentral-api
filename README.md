@@ -13,7 +13,7 @@ The project starts the following containers:
 
 ### Diagram
 
-![diagram](https://github.com/knaiskes/RelayCentral-api/assets/6069054/62407af1-9b7e-46a9-b2de-b19675e0f895)
+![diagram](https://github.com/knaiskes/RelayCentral-api/assets/6069054/3768366f-89e2-4566-95c2-21cb13f62e31)
 
 ## Quick Start
 
